@@ -1,0 +1,121 @@
+.library {
+  margin: 2rem 0rem;
+}
+
+.library__hero {
+  background-image: url("../images/library.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 5rem 3rem;
+  border-radius: 10px;
+}
+
+.library__hero__heading {
+  color: white;
+  font-size: 2.4rem;
+  font-weight: 500;
+}
+
+.library__hero__desc {
+  color: white;
+  font-size: 1.5rem;
+  width: 70%;
+  padding-top: 1rem;
+}
+
+/* filter section */
+
+.library__filter {
+  margin-left: auto;
+  margin-top: 2rem;
+}
+
+.library__filter__heading {
+  color: var(--clr-dark-2);
+  font-size: 2rem;
+}
+
+.genres {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.library__books {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+
+  gap: 5rem;
+}
+
+/* for 2xl   */
+/* @media (max-width: 1536px) {} */
+
+/* for xl   */
+/* @media (max-width: 1280px) {} */
+
+/* for large */
+@media (max-width: 1024px) {
+  .library__hero__heading {
+    font-size: 2rem;
+  }
+
+  .library__hero__desc {
+    width: 100%;
+  }
+}
+
+/* for medium */
+@media (max-width: 768px) {
+  .library__hero__heading {
+    font-size: 1.7rem;
+  }
+
+  .library__hero__desc {
+    width: 100%;
+  }
+
+  /* filter section */
+
+  .genres {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 1rem;
+  }
+}
+
+/* for small */
+/* @media (max-width: 640px) {} */
+
+/* for extra small */
+@media (max-width: 400px) {
+  .library__hero {
+    padding: 2rem;
+  }
+
+  .library__hero__heading {
+    font-size: 1.5rem;
+  }
+
+  .library__hero__desc {
+    font-size: 1.3rem;
+  }
+
+  /* filter section */
+
+  .library__filter__heading {
+    font-size: 1.5rem;
+  }
+
+  .genres {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 1rem;
+  }
+}

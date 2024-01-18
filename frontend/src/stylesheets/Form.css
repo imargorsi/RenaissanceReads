@@ -1,0 +1,107 @@
+.formmain {
+  width: 60%;
+  margin-top: 10rem;
+  display: flex column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--clr-dark-1);
+  padding: 5rem;
+  border-radius: 20px;
+  box-shadow: -2px 12px 21px -10px rgba(0, 0, 0, 0.67);
+  -webkit-box-shadow: -2px 12px 21px -10px rgba(0, 0, 0, 0.67);
+  -moz-box-shadow: -2px 12px 21px -10px rgba(0, 0, 0, 0.67);
+}
+
+.form__desc {
+  font-size: 1.5rem;
+  color: white;
+  padding-top: 1rem;
+}
+
+a {
+  color: white;
+  font: 2rem;
+}
+
+.inputitem {
+  width: 100%;
+  appearance: none;
+  border: 1px solid #000;
+  border-radius: 8px;
+  outline: none;
+  padding: 1rem;
+  margin: 1rem 0;
+  transition: border-color 1s ease-in-out;
+  font-size: 1.5rem;
+}
+
+.submi__btn {
+  width: 40%;
+  padding: 1rem 2rem;
+
+  background-color: #271d1b;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.login__btn {
+  margin-top: 1rem;
+}
+
+/* for 2xl   */
+/* @media (max-width: 1536px) {} */
+
+/* for xl   */
+@media (max-width: 1280px) {
+  .formmain {
+    width: 80%;
+  }
+}
+
+/* for large */
+/* @media (max-width: 1024px) {} */
+
+/* for medium */
+@media (max-width: 768px) {
+  .formmain {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .formmain {
+    width: 100%;
+    margin-top: 2rem;
+
+    padding: 3rem;
+  }
+
+  .form__desc {
+    font-size: 1.2rem;
+  }
+
+  .submi__btn {
+    width: 100%;
+  }
+
+  .inputitem {
+    font-size: 1rem;
+  }
+}
+
+/* for extra small */
+@media (max-width: 400px) {
+  .formmain {
+    margin: 2rem 0rem;
+
+    padding: 1.5rem;
+  }
+
+  .form__desc {
+    font-size: 1.2rem;
+  }
+
+  .submi__btn {
+    width: 100%;
+  }
+}
