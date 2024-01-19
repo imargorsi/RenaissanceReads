@@ -1,9 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/home";
+import UserContextProvider from "./context/userContextProvider";
+
+import Home from "./pages/Home";
 import Header from "./components/Header";
-import Profile from "./pages/profile";
-import { Register } from "./components/Form";
-import { Login } from "./components/Form";
+import SignUp from "./pages/SignUp";
+import Login from "./pages/Login";
+import Profile from "./pages/Profile";
 import BlogPage from "./pages/BlogPage";
 import Library from "./pages/Library";
 
@@ -11,22 +13,21 @@ function App() {
   const userLogin = false;
 
   return (
-    <div>
+    <UserContextProvider>
       <Header />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
-            path="user"
-            element={(userLogin && <Profile />) || (!userLogin && <Register />)}
+            path="/user"
+            element={(userLogin && <Profile />) || (!userLogin && <SignUp />)}
           />
-
-          <Route path="login" element={<Login />} />
-          <Route path="blogs" element={<BlogPage />} />
-          <Route path="library" element={<Library />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/blogs" element={<BlogPage />} />
+          <Route path="/library" element={<Library />} />
         </Routes>
       </BrowserRouter>
-    </div>
+    </UserContextProvider>
   );
 }
 

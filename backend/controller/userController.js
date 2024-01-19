@@ -43,12 +43,10 @@ module.exports = {
       const token = jwt.sign({ id: user.response.id }, config.jwt.secret);
 
       console.log("Before setting cookie");
-      res
-        .status(200)
-        .cookie("access_token", token, {
-          httpOnly: true,
-        })
-        .json(user.response);
+      res.status(200).cookie("access_token", token, { httpOnly: true }).json({
+        status: "success",
+        user: user.response,
+      });
 
       console.log("After setting cookie");
 

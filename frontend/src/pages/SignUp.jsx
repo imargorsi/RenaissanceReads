@@ -1,9 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 
-function Register() {
-  // creating a state for registration form data
-
+function SignUp() {
   const [formData, setFormData] = useState({
     firstName: "",
     email: "",
@@ -112,86 +110,4 @@ function Register() {
   );
 }
 
-function Login() {
-  // State to manage form data
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-
-  const [loginError, setloginError] = useState("");
-
-  // Function to handle form input changes
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  // Function to handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      // Making an Axios request
-      const response = await axios.post("/api/login", formData);
-      console.log("Login successful", response.data);
-      setloginError(response.data);
-
-      if (response.data === "login successful") {
-        window.location.href = "/profile";
-      }
-    } catch (error) {
-      console.error("Login failed", error);
-      setloginError(error.data);
-    }
-  };
-
-  return (
-    <div className="container ">
-      <div className="formmain">
-        <h2 className="heading__h2">Login</h2>
-
-        <div className="regform">
-          <form className="form" onSubmit={handleSubmit}>
-            <input
-              type="email"
-              className="inputitem"
-              placeholder="Enter Your Email Address"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-
-            <input
-              type="password"
-              className="inputitem"
-              placeholder="Enter Your Password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-
-            <p className="form__desc">{loginError}</p>
-
-            <button className="btn submi__btn" type="submit">
-              Login
-            </button>
-
-            <p className="form__desc">
-              Don&apos;t have an account yet?
-              <a href="/user"> Sign Up</a>
-            </p>
-          </form>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export { Register, Login };
+export default SignUp;
