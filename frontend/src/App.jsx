@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import UserContextProvider from "./context/userContextProvider";
 
 import Home from "./pages/Home";
 import Header from "./components/Header";
@@ -10,10 +9,11 @@ import BlogPage from "./pages/BlogPage";
 import Library from "./pages/Library";
 
 function App() {
-  const userLogin = false;
+  var userLogin = false;
+  // console.log(localStorage.getItem("userLogin"));
 
   return (
-    <UserContextProvider>
+    <>
       <Header />
       <BrowserRouter>
         <Routes>
@@ -27,7 +27,7 @@ function App() {
           <Route path="/library" element={<Library />} />
         </Routes>
       </BrowserRouter>
-    </UserContextProvider>
+    </>
   );
 }
 

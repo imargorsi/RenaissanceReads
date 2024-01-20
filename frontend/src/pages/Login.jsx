@@ -1,24 +1,21 @@
 import axios from "axios";
-import { useState, useContext } from "react";
-import UserContext from "../context/userContext";
-// import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { signinSuccess, signinFailed } from "../redux/user/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function Login() {
-  // State to manage form data
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  const { isLoggedIn, setisLoggedIn } = useContext(UserContext);
+  // Use Redux state for loginError
+  const loginError = useSelector((state) => state.user.error);
 
-  // State to manage form errors
-  const [loginError, setLoginError] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  // for links and navigation
-  // const navigate = useNavigate();
-
-  // Function to handle form input changes
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -26,7 +23,6 @@ function Login() {
     });
   };
 
-  // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -34,24 +30,26 @@ function Login() {
       const response = await axios.post("/api/login", formData);
 
       if (response.data.status === "success") {
-        setisLoggedIn(response.data.user.fullName);
+        console.log("Login successful", response.data.user);
+        dispatch(signinSuccess(response.data.user));
+        // Redirect the user to the desired page after successful login
+        navigate("/"); // Update with your desired path
       } else {
-        setLoginError(response.data);
+        // Dispatch the error message to Redux state
+        console.log(response.data);
+        dispatch(signinFailed(response.data || "Something went wrong"));
       }
-
-      console.log(response);
     } catch (error) {
       console.error("Login failed", error);
-      setLoginError(error.response?.data || "An error occurred");
+      // Dispatch the error message to Redux state
+      dispatch(signinFailed(error.response?.data || "Something went wrong"));
     }
   };
 
   return (
-    <div className="container ">
+    <div className="container">
       <div className="formmain">
-        <h2 className="heading__h2">
-          {!isLoggedIn === false ? `Welcome Back, ${isLoggedIn}` : "Login"}
-        </h2>
+        <h2 className="heading__h2">Login</h2>
 
         <div className="regform">
           <form className="form" onSubmit={handleSubmit}>
@@ -77,6 +75,7 @@ function Login() {
               required
             />
 
+            {/* Display error message from Redux state */}
             <p className="form__desc">{loginError}</p>
 
             <button className="btn submi__btn" type="submit">
