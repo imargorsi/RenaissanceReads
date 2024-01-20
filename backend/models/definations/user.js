@@ -26,6 +26,12 @@ Users.init(
       defaultValue:
         "Add your summary here. Share little about yourself, which books you like to read, your hobbies, and more!",
     },
+
+    profile: {
+      type: DataTypes.STRING,
+      defaultValue:
+        "https://wqhlyhvifxyzmuipyzsn.supabase.co/storage/v1/object/public/images/defaultimg.jpg",
+    },
   },
   {
     sequelize,

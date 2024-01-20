@@ -25,7 +25,12 @@ function Header() {
     <header className="container">
       <div className="header__element">
         <h1 className="header__logo">
-          Renaissance Reads<span className="header__dot">.</span>
+          <a
+            href="/"
+            style={{ textDecoration: "none", color: "var(--clr-dark-2)" }}
+          >
+            Renaissance Reads<span className="header__dot">.</span>
+          </a>
         </h1>
 
         <svg
@@ -46,15 +51,11 @@ function Header() {
 
           {currentUser ? (
             <a href="profile">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+              <img
                 className="header__usericon"
-              >
-                <path d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-              </svg>
+                src={currentUser.profile}
+                alt=""
+              />
             </a>
           ) : (
             <a href="/login">
@@ -78,9 +79,34 @@ function Header() {
       <hr className="header__line" />
 
       <div className="mobile-nav " id="mobile-nav">
-        <a href="">Home</a>
-        <a href="">Blog</a>
-        <a href="">Library</a>
+        <a href="/blogs">Blog</a>
+        <a href="/library">Library</a>
+        <div>
+          {currentUser ? (
+            <a href="profile">
+              <img
+                className="header__usericon"
+                src={currentUser.profile}
+                alt=""
+              />
+            </a>
+          ) : (
+            <a href="/login">
+              <button className="btn">Sign in</button>
+            </a>
+          )}
+        </div>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          className="header__usericon"
+          id="sunicon"
+          onClick={darkMode}
+        >
+          <path d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+        </svg>
       </div>
     </header>
   );

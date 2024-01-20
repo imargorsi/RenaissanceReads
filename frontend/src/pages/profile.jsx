@@ -7,46 +7,71 @@ function Profile() {
   const randomNumber = Math.floor(Math.random() * 100);
   const { currentUser } = useSelector((state) => state.user);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [imageUrl, setImageUrl] = useState(currentUser.profilePicture);
+  const [imageUrl, setImageUrl] = useState(currentUser.profile);
 
   // to handle the edit summary
   const [isEditing, setIsEditing] = useState(false);
   const [summary, setSummary] = useState(currentUser.summary);
 
+  // to handle the upload status and to show the message
+  const [uploadStatus, setUploadStatus] = useState(null);
+
+  // Reference to the input field for selecting an image
   const imgFileRef = useRef(null);
 
+  // Function to handle changes in the selected image file
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setSelectedImage(file);
   };
 
+  // Effect to update the image URL when the selected image changes
   useEffect(() => {
     if (selectedImage) {
       setImageUrl(URL.createObjectURL(selectedImage));
     } else {
-      setImageUrl(currentUser.profilePicture);
+      setImageUrl(currentUser.profile);
     }
-  }, [selectedImage, currentUser.profilePicture]);
+  }, [selectedImage, currentUser.profile]);
 
+  // Function to handle the image upload
   const handleUpload = async () => {
-    if (selectedImage) {
-      const { data, error } = await supabase.storage
-        .from("images")
-        .upload(`profile/${currentUser.id}.${randomNumber}`, selectedImage);
+    // Reset the upload status message
+    setUploadStatus(null);
 
-      if (error) {
-        console.error("Error uploading image:", error.message);
-      } else {
-        console.log("Image uploaded successfully:", data);
-        setImageUrl(data.Key);
+    if (selectedImage) {
+      try {
+        const { data, error } = await supabase.storage
+          .from("images") // Name of the storage bucket
+          .upload(`profile/${currentUser.id}.${randomNumber}`, selectedImage); // File object
+
+        if (error) {
+          console.error("Error uploading image:", error.message);
+          setUploadStatus("Error uploading image. Please try again.");
+        } else {
+          const imageUrl = `${supabase.storageUrl}/object/public/images/${data.path}`; // setting the supabase url
+
+          console.log("Image uploaded successfully:", imageUrl);
+          setImageUrl(imageUrl);
+
+          // Set a success message
+          setUploadStatus("Image uploaded successfully!");
+        }
+      } catch (error) {
+        console.error("Unexpected error during image upload:", error.message);
+        setUploadStatus(
+          "Unexpected error during image upload. Please try again."
+        );
       }
     }
   };
 
+  // Function to handle the start of editing the summary
   const handleEditSummary = () => {
     setIsEditing(true);
   };
 
+  // Function to handle saving the summary
   const handleSaveSummary = async () => {
     setIsEditing(false);
     try {
@@ -56,12 +81,12 @@ function Profile() {
         email: currentUser.email,
       });
       setSummary(response.data.summary);
-      console.log(response);
     } catch (error) {
       console.error("Error updating summary:", error.message);
     }
   };
 
+  // JSX structure for the component
   return (
     <div className="profile container">
       <div className="profileabout">
@@ -70,6 +95,7 @@ function Profile() {
 
         <div className="about__summary">
           <div>
+            {/* Input field for selecting an image */}
             <input
               className="inputFiled"
               type="file"
@@ -78,6 +104,7 @@ function Profile() {
               onChange={handleImageChange}
               style={{ display: "none" }}
             />
+            {/* Display the selected or default image */}
             <img
               className="profilepic"
               src={imageUrl}
@@ -89,6 +116,7 @@ function Profile() {
 
           <div className="about__summary__text">
             <h3 className="heading__h2">Summary:</h3>
+            {/* Conditionally render either an editable textarea or a paragraph based on editing state */}
             {isEditing ? (
               <textarea
                 className="editSummary"
@@ -100,6 +128,7 @@ function Profile() {
             )}
 
             <div className="button">
+              {/* Conditionally render either Save or Edit button based on editing state */}
               {isEditing ? (
                 <button className="btn" onClick={handleSaveSummary}>
                   Save Summary
@@ -109,10 +138,16 @@ function Profile() {
                   Edit Summary
                 </button>
               )}
+              {/* Conditionally render the Upload Image button and status message */}
               {selectedImage && (
-                <button className="btn" onClick={handleUpload}>
-                  Upload Image
-                </button>
+                <>
+                  <button className="btn" onClick={handleUpload}>
+                    Upload Image
+                  </button>
+                  {uploadStatus && (
+                    <p className="upload-status">{uploadStatus}</p>
+                  )}
+                </>
               )}
             </div>
           </div>

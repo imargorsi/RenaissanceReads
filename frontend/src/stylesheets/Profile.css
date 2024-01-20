@@ -27,16 +27,24 @@
 }
 
 .profilepic {
-  background-color: green;
   border-radius: 100%;
-  width: 320px;
-  height: 300px;
-  border: 3px solid white;
+  width: 300px;
+  height: 290px;
+  border: 4px solid white;
   cursor: pointer;
+  object-fit: cover;
 }
 
 .inputFiled {
   display: none;
+}
+
+.upload-status {
+  font-size: 1.2rem;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--clr-dark-1);
+  margin-top: 1rem;
 }
 
 .heading__h3 {
@@ -100,6 +108,9 @@
 
 /* for extra small */
 @media (max-width: 400px) {
+  .profileabout {
+    padding-inline: 1rem;
+  }
   .about__summary {
     padding-inline: 0.5rem;
     gap: 4rem;
