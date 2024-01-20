@@ -7,24 +7,23 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import BlogPage from "./pages/BlogPage";
 import Library from "./pages/Library";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
-  var userLogin = false;
-  // console.log(localStorage.getItem("userLogin"));
-
   return (
     <>
       <Header />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route
-            path="/user"
-            element={(userLogin && <Profile />) || (!userLogin && <SignUp />)}
-          />
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route path="/blogs" element={<BlogPage />} />
           <Route path="/library" element={<Library />} />
+
+          <Route element={<PrivateRoute />}>
+            <Route path="/profile" element={<Profile />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </>

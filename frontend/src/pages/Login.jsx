@@ -84,7 +84,7 @@ function Login() {
 
             <p className="form__desc">
               Don&apos;t have an account yet?
-              <a href="/user"> Sign Up</a>
+              <a href="/signup"> Sign Up</a>
             </p>
           </form>
         </div>
