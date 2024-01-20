@@ -59,9 +59,9 @@ module.exports = {
     }
   },
 
-  updateSummary: async (body) => {
+  editUser: async (body) => {
     try {
-      const user = await userModel.updateSummary(body);
+      const user = await userModel.editUser(body);
 
       if (user.error || !user.response) {
         return {

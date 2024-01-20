@@ -56,12 +56,12 @@ module.exports = {
     }
   },
 
-  updateSummary: async (req, res) => {
+  editUser: async (req, res) => {
     try {
       console.log(req.body);
-      const updatedSummary = await userService.updateSummary(req.body);
+      // const updatedSummary = await userService.editUser(req.body);
 
-      return res.send(updatedSummary);
+      console.log(req.body);
     } catch (error) {
       return res.send(error.message);
     }

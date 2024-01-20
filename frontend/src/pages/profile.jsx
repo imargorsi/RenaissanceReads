@@ -9,9 +9,11 @@ function Profile() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(currentUser.profile);
 
-  // to handle the edit summary
+  // to handle the edit details
   const [isEditing, setIsEditing] = useState(false);
-  const [summary, setSummary] = useState(currentUser.summary);
+  const [fullName, setFullName] = useState(currentUser.fullName);
+  const [email, setEmail] = useState(currentUser.email);
+  const [password, setPassword] = useState("");
 
   // to handle the upload status and to show the message
   const [uploadStatus, setUploadStatus] = useState(null);
@@ -66,23 +68,31 @@ function Profile() {
     }
   };
 
-  // Function to handle the start of editing the summary
-  const handleEditSummary = () => {
+  // Function to handle the start of editing the user details
+  const handleEditDetails = () => {
     setIsEditing(true);
   };
 
-  // Function to handle saving the summary
-  const handleSaveSummary = async () => {
+  // Function to handle saving the user details
+  const handleSaveDetails = async () => {
     setIsEditing(false);
     try {
-      const response = await axios.post("/api/summary", {
-        summary: summary,
+      // Send a request to update user details
+      const response = await axios.post("/api/editUser", {
+        fullName: fullName,
+        password: password,
         id: currentUser.id,
         email: currentUser.email,
       });
-      setSummary(response.data.summary);
+
+      // Update the local state with the updated user details
+      setFullName(response.data.fullName);
+      setEmail(response.data.username);
+
+      // Optionally, clear the password field after saving
+      setPassword("");
     } catch (error) {
-      console.error("Error updating summary:", error.message);
+      console.error("Error updating user details:", error.message);
     }
   };
 
@@ -91,7 +101,6 @@ function Profile() {
     <div className="profile container">
       <div className="profileabout">
         <h1 className="heading__h2">Welcome Back, {currentUser.fullName}</h1>
-        <p className="paragraph">username: {currentUser.email}</p>
 
         <div className="about__summary">
           <div>
@@ -115,27 +124,55 @@ function Profile() {
           </div>
 
           <div className="about__summary__text">
-            <h3 className="heading__h2">Summary:</h3>
-            {/* Conditionally render either an editable textarea or a paragraph based on editing state */}
-            {isEditing ? (
-              <textarea
-                className="editSummary"
-                value={summary}
-                onChange={(e) => setSummary(e.target.value)}
-              />
-            ) : (
-              <p className="paragraph">{currentUser.summary}</p>
-            )}
+            {/* Display the user details as headings or input fields based on editing state */}
+            <div className="summary__element">
+              <h3 className="heading__h3">Display Name:</h3>
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                />
+              ) : (
+                <p className="paragraph">{fullName}</p>
+              )}
+            </div>
+            <div className="summary__element">
+              <h3 className="heading__h3">Email:</h3>
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              ) : (
+                <p className="paragraph">{email}</p>
+              )}
+            </div>
+
+            {/* Conditionally render password input only in editing mode */}
+            <div className="summary__element">
+              {isEditing && (
+                <>
+                  <h3 className="heading__h3">Password:</h3>
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </>
+              )}
+            </div>
 
             <div className="button">
               {/* Conditionally render either Save or Edit button based on editing state */}
               {isEditing ? (
-                <button className="btn" onClick={handleSaveSummary}>
-                  Save Summary
+                <button className="btn" onClick={handleSaveDetails}>
+                  Save Details
                 </button>
               ) : (
-                <button className="btn" onClick={handleEditSummary}>
-                  Edit Summary
+                <button className="btn" onClick={handleEditDetails}>
+                  Edit Details
                 </button>
               )}
               {/* Conditionally render the Upload Image button and status message */}

@@ -58,7 +58,7 @@ module.exports = {
     }
   },
 
-  updateSummary: async (body) => {
+  editUser: async (body) => {
     try {
       const user = await models.user.findOne({
         where: {
