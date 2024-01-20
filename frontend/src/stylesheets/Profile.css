@@ -10,8 +10,20 @@
   gap: 6rem;
 }
 
+.editSummary {
+  border: 2px solid var(--clr-dark-1);
+  padding: 1rem;
+  width: 70%;
+  height: 10rem;
+}
+
 .about__summary__text {
   flex-basis: 80%;
+}
+
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .profilepic {
@@ -20,6 +32,11 @@
   width: 320px;
   height: 300px;
   border: 3px solid white;
+  cursor: pointer;
+}
+
+.inputFiled {
+  display: none;
 }
 
 .heading__h3 {

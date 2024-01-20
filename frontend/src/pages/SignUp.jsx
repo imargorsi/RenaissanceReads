@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
   const [formData, setFormData] = useState({
@@ -11,6 +12,8 @@ function SignUp() {
 
   // for form error
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   // creating a function to handle the form data
 
@@ -31,7 +34,7 @@ function SignUp() {
       setError(response.data);
 
       if (response.data === "registration successful, Please Login Now") {
-        window.location.href = "/login";
+        navigate("/login");
       }
     } catch (error) {
       // changeing the state to the new data

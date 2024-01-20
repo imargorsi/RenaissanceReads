@@ -58,6 +58,33 @@ module.exports = {
     }
   },
 
+  updateSummary: async (body) => {
+    try {
+      const user = await models.user.findOne({
+        where: {
+          id: body.id,
+          email: body.email,
+        },
+      });
+
+      if (!user) {
+        return {
+          response: user,
+        };
+      }
+
+      const updatedUser = await user.update({ summary: body.summary });
+
+      return {
+        response: updatedUser,
+      };
+    } catch (error) {
+      return {
+        error: error,
+      };
+    }
+  },
+
   getbooks: async (id) => {
     try {
       const userbooks = await models.books.findAll({

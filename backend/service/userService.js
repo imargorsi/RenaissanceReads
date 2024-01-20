@@ -59,6 +59,26 @@ module.exports = {
     }
   },
 
+  updateSummary: async (body) => {
+    try {
+      const user = await userModel.updateSummary(body);
+
+      if (user.error || !user.response) {
+        return {
+          error: "no user found",
+        };
+      }
+
+      return {
+        response: user.response,
+      };
+    } catch (error) {
+      return {
+        error: error,
+      };
+    }
+  },
+
   getbooks: async (id) => {
     try {
       const getbooks = await userModel.getbooks(id);

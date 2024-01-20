@@ -33,7 +33,7 @@ function Login() {
         console.log("Login successful", response.data.user);
         dispatch(signinSuccess(response.data.user));
         // Redirect the user to the desired page after successful login
-        navigate("/"); // Update with your desired path
+        navigate("/profile"); // Update with your desired path
       } else {
         // Dispatch the error message to Redux state
         console.log(response.data);

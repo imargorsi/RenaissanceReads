@@ -20,6 +20,12 @@ Users.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+
+    summary: {
+      type: DataTypes.STRING,
+      defaultValue:
+        "Add your summary here. Share little about yourself, which books you like to read, your hobbies, and more!",
+    },
   },
   {
     sequelize,

@@ -55,4 +55,15 @@ module.exports = {
       return res.send(error.details ? error.details[0].message : error.message);
     }
   },
+
+  updateSummary: async (req, res) => {
+    try {
+      console.log(req.body);
+      const updatedSummary = await userService.updateSummary(req.body);
+
+      return res.send(updatedSummary);
+    } catch (error) {
+      return res.send(error.message);
+    }
+  },
 };
