@@ -15,6 +15,13 @@ const loginSchema = joi.object({
   password: joi.string().required(),
 });
 
+const editUserSchema = joi.object({
+  id: joi.number().required(),
+  fullName: joi.string().min(3).max(30),
+  email: joi.string().email(),
+  profile: joi.string(),
+});
+
 module.exports = {
   register: async (req, res) => {
     try {
@@ -32,8 +39,9 @@ module.exports = {
 
   login: async (req, res) => {
     try {
-      const validator = await loginSchema.validateAsync(req.body);
-      const user = await userService.login(validator);
+      // const validator = await loginSchema.validateAsync(req.body);
+
+      const user = await userService.login(req.body);
 
       if (user.error) {
         // console.log(user.error);
@@ -52,18 +60,33 @@ module.exports = {
 
       // return res.send("login successful");
     } catch (error) {
+      console.log(error);
       return res.send(error.details ? error.details[0].message : error.message);
     }
   },
 
   editUser: async (req, res) => {
     try {
-      console.log(req.body);
-      // const updatedSummary = await userService.editUser(req.body);
+      if (req.user.id !== Number(req.body.id)) {
+        // jwt id and user id
 
-      console.log(req.body);
+        return res.send("You are not authorized to edit this user");
+      }
+
+      const validator = await editUserSchema.validateAsync(req.body);
+
+      const user = await userService.editUser(validator);
+
+      if (user.error) {
+        res.status(500).json(user.error);
+      }
+
+      res.status(200).json({
+        status: "success",
+        user: user.response,
+      });
     } catch (error) {
-      return res.send(error.message);
+      return res.send(error.details ? error.details[0].message : error.message);
     }
   },
 };

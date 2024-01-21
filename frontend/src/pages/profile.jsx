@@ -1,33 +1,33 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRef, useState, useEffect } from "react";
 import supabase from "../supabase.js";
 import axios from "axios";
 
+import {
+  updateUserSuccess,
+  updateUserFailed,
+} from "../redux/user/userSlice.js";
+
 function Profile() {
-  const randomNumber = Math.floor(Math.random() * 100);
-  const { currentUser } = useSelector((state) => state.user);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [imageUrl, setImageUrl] = useState(currentUser.profile);
+  const randomNumber = Math.floor(Math.random() * 100); // for random number
+  const { currentUser } = useSelector((state) => state.user); // to get the current user
+  const [selectedImage, setSelectedImage] = useState(null); // so that we know which image is selected
+  const [imageUrl, setImageUrl] = useState(currentUser.profile); // for setting the image url and updating the image
+  const [isEditing, setIsEditing] = useState(false); // to check if user is edited and updated state accordingly
+  const [fullName, setFullName] = useState(currentUser.fullName); // to set the full name of the user
+  const [uploadStatus, setUploadStatus] = useState({
+    message: "",
+    isError: false,
+    profileImgStatus: "",
+  });
 
-  // to handle the edit details
-  const [isEditing, setIsEditing] = useState(false);
-  const [fullName, setFullName] = useState(currentUser.fullName);
-  const [email, setEmail] = useState(currentUser.email);
-  const [password, setPassword] = useState("");
-
-  // to handle the upload status and to show the message
-  const [uploadStatus, setUploadStatus] = useState(null);
-
-  // Reference to the input field for selecting an image
+  const dispatch = useDispatch();
   const imgFileRef = useRef(null);
 
-  // Function to handle changes in the selected image file
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedImage(file);
-  };
+  useEffect(() => {
+    setFullName(currentUser.fullName);
+  }, [currentUser]);
 
-  // Effect to update the image URL when the selected image changes
   useEffect(() => {
     if (selectedImage) {
       setImageUrl(URL.createObjectURL(selectedImage));
@@ -36,67 +36,66 @@ function Profile() {
     }
   }, [selectedImage, currentUser.profile]);
 
-  // Function to handle the image upload
-  const handleUpload = async () => {
-    // Reset the upload status message
-    setUploadStatus(null);
-
-    if (selectedImage) {
-      try {
-        const { data, error } = await supabase.storage
-          .from("images") // Name of the storage bucket
-          .upload(`profile/${currentUser.id}.${randomNumber}`, selectedImage); // File object
-
-        if (error) {
-          console.error("Error uploading image:", error.message);
-          setUploadStatus("Error uploading image. Please try again.");
-        } else {
-          const imageUrl = `${supabase.storageUrl}/object/public/images/${data.path}`; // setting the supabase url
-
-          console.log("Image uploaded successfully:", imageUrl);
-          setImageUrl(imageUrl);
-
-          // Set a success message
-          setUploadStatus("Image uploaded successfully!");
-        }
-      } catch (error) {
-        console.error("Unexpected error during image upload:", error.message);
-        setUploadStatus(
-          "Unexpected error during image upload. Please try again."
-        );
-      }
-    }
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedImage(file);
   };
 
-  // Function to handle the start of editing the user details
   const handleEditDetails = () => {
     setIsEditing(true);
   };
 
-  // Function to handle saving the user details
   const handleSaveDetails = async () => {
     setIsEditing(false);
+
     try {
-      // Send a request to update user details
+      let imageUrl = currentUser.profile;
+
+      if (selectedImage) {
+        const { data, error } = await supabase.storage
+          .from("images")
+          .upload(`profile/${currentUser.id}.${randomNumber}`, selectedImage);
+
+        if (error) {
+          console.error("Error uploading image:", error.message);
+          setUploadStatus({
+            message: "Error uploading image. Please try again.",
+            isError: true,
+          });
+          return;
+        }
+
+        imageUrl = `${supabase.storageUrl}/object/public/images/${data.path}`;
+        setImageUrl(imageUrl);
+        console.log("Image Uploading Successfully:", imageUrl);
+      }
+
       const response = await axios.post("/api/editUser", {
-        fullName: fullName,
-        password: password,
         id: currentUser.id,
-        email: currentUser.email,
+        fullName: fullName,
+        profile: imageUrl,
       });
 
-      // Update the local state with the updated user details
-      setFullName(response.data.fullName);
-      setEmail(response.data.username);
+      if (response.data.error) {
+        console.log("Error updating user details:", response.data.error);
+        dispatch(updateUserFailed(response.data.error));
+        setUploadStatus({ message: response.data.error, isError: true });
+        return;
+      }
 
-      // Optionally, clear the password field after saving
-      setPassword("");
+      dispatch(updateUserSuccess(response.data.user));
+      setFullName(response.data.fullName);
+      setUploadStatus({
+        message: "User details and image uploaded successfully!",
+        isError: false,
+      });
     } catch (error) {
       console.error("Error updating user details:", error.message);
+      dispatch(updateUserFailed(error.message));
+      setUploadStatus({ message: error.message, isError: true });
     }
   };
 
-  // JSX structure for the component
   return (
     <div className="profile container">
       <div className="profileabout">
@@ -104,7 +103,6 @@ function Profile() {
 
         <div className="about__summary">
           <div>
-            {/* Input field for selecting an image */}
             <input
               className="inputFiled"
               type="file"
@@ -113,18 +111,21 @@ function Profile() {
               onChange={handleImageChange}
               style={{ display: "none" }}
             />
-            {/* Display the selected or default image */}
-            <img
-              className="profilepic"
-              src={imageUrl}
-              alt=""
-              onClick={() => imgFileRef.current.click()}
-              style={{ cursor: "pointer" }}
-            />
+
+            {isEditing === false ? (
+              <img className="profilepic" src={currentUser.profile} alt="" />
+            ) : (
+              <img
+                className="profilepic"
+                src={imageUrl}
+                alt=""
+                onClick={() => imgFileRef.current.click()}
+                style={{ cursor: "pointer" }}
+              />
+            )}
           </div>
 
           <div className="about__summary__text">
-            {/* Display the user details as headings or input fields based on editing state */}
             <div className="summary__element">
               <h3 className="heading__h3">Display Name:</h3>
               {isEditing ? (
@@ -137,35 +138,14 @@ function Profile() {
                 <p className="paragraph">{fullName}</p>
               )}
             </div>
-            <div className="summary__element">
-              <h3 className="heading__h3">Email:</h3>
-              {isEditing ? (
-                <input
-                  type="text"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              ) : (
-                <p className="paragraph">{email}</p>
-              )}
-            </div>
 
-            {/* Conditionally render password input only in editing mode */}
-            <div className="summary__element">
-              {isEditing && (
-                <>
-                  <h3 className="heading__h3">Password:</h3>
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </>
-              )}
-            </div>
+            {uploadStatus.isError && (
+              <p style={{ color: "red" }}>{uploadStatus.message}</p>
+            )}
+
+            <p>{uploadStatus.message}</p>
 
             <div className="button">
-              {/* Conditionally render either Save or Edit button based on editing state */}
               {isEditing ? (
                 <button className="btn" onClick={handleSaveDetails}>
                   Save Details
@@ -174,17 +154,6 @@ function Profile() {
                 <button className="btn" onClick={handleEditDetails}>
                   Edit Details
                 </button>
-              )}
-              {/* Conditionally render the Upload Image button and status message */}
-              {selectedImage && (
-                <>
-                  <button className="btn" onClick={handleUpload}>
-                    Upload Image
-                  </button>
-                  {uploadStatus && (
-                    <p className="upload-status">{uploadStatus}</p>
-                  )}
-                </>
               )}
             </div>
           </div>

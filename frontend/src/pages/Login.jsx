@@ -75,8 +75,7 @@ function Login() {
               required
             />
 
-            {/* Display error message from Redux state */}
-            <p className="form__desc">{loginError}</p>
+            {loginError && <p className="form__desc">{loginError}</p>}
 
             <button className="btn submi__btn" type="submit">
               Login

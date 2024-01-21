@@ -41,6 +41,8 @@ module.exports = {
         user.response.dataValues.password
       );
 
+      console.log("se", passwordMatch);
+
       if (!passwordMatch) {
         return {
           error: "Incorrect Password",
@@ -61,16 +63,16 @@ module.exports = {
 
   editUser: async (body) => {
     try {
-      const user = await userModel.editUser(body);
+      const updateUser = await userModel.editUser(body);
 
-      if (user.error || !user.response) {
+      if (updateUser.error) {
         return {
-          error: "no user found",
+          error: updateUser.error,
         };
       }
 
       return {
-        response: user.response,
+        response: updateUser.response,
       };
     } catch (error) {
       return {

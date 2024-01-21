@@ -63,17 +63,12 @@ module.exports = {
       const user = await models.user.findOne({
         where: {
           id: body.id,
-          email: body.email,
         },
       });
 
-      if (!user) {
-        return {
-          response: user,
-        };
-      }
-
-      const updatedUser = await user.update({ summary: body.summary });
+      const updatedUser = await user.update({
+        ...body,
+      });
 
       return {
         response: updatedUser,
