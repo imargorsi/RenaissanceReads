@@ -4,19 +4,18 @@ const joi = require("joi");
 const schema = joi.object({
   bookTitle: joi.string().required(),
   author: joi.string().required(),
-  review: joi.string().required(),
-  notes: joi.string().required(),
-  ISBN: joi.number().required(),
-  stars: joi.string().required(),
+  isbn: joi.number().required(),
+  genre: joi.string().required(),
 });
 
 module.exports = {
   newbook: async (req, res) => {
+    console.log(req.body);
     try {
       const validator = await schema.validate(req.body);
-      const book = await bookService.newbook(validator);
+      const newBook = await bookService.newbook(validator);
 
-      res.redirect("/");
+      res.status(200).send({ response: newBook.response });
     } catch (error) {
       res.send({ error: book.error });
       console.log(error);
@@ -37,10 +36,6 @@ module.exports = {
   singlebook: async (req, res) => {
     try {
       const getbook = await bookService.singlebook(req.params.id);
-
-      // await res.render("booknotes", {
-      //   singlebook: getbook.response.dataValues,
-      // });
 
       await res.status(200).send({ response: getbook.response.dataValues });
     } catch (error) {

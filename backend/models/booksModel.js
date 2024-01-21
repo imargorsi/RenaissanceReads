@@ -1,19 +1,15 @@
 const { models } = require("./index");
 
 module.exports = {
-  newBook: async (body) => {
+  newBook: async (body, bookId) => {
     try {
-      const book = await models.books.create({
-        bookTitle: body.value.bookTitle,
-        author: body.value.author,
-        review: body.value.review,
-        notes: body.value.notes,
-        isbn: body.value.isbn,
-        stars: body.value.stars,
+      const newBook = await models.books.create({
+        bookId: bookId,
+        ...body.value,
       });
 
       return {
-        response: book,
+        response: newBook,
       };
     } catch (error) {
       return {

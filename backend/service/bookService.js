@@ -3,7 +3,8 @@ const bookModel = require("../models/booksModel");
 module.exports = {
   newbook: async (body) => {
     try {
-      const book = await bookModel.newBook(body);
+      const bookId = Math.floor(Math.random() * 10000);
+      const book = await bookModel.newBook(body, bookId);
       return {
         response: book,
       };

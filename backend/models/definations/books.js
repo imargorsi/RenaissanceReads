@@ -5,6 +5,13 @@ class Books extends Model {}
 
 Books.init(
   {
+    bookId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      unique: true,
+    },
+
     bookTitle: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -18,16 +25,10 @@ Books.init(
 
     review: {
       type: DataTypes.TEXT,
-      allowNull: false,
-    },
-
-    stars: {
-      type: DataTypes.STRING,
     },
 
     notes: {
       type: DataTypes.TEXT,
-      allowNull: false,
     },
 
     isbn: {
@@ -37,7 +38,6 @@ Books.init(
 
     genre: {
       type: DataTypes.STRING,
-      allowNull: true,
     },
   },
   {

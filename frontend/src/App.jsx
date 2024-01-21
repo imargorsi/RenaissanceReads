@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import BlogPage from "./pages/BlogPage";
 import Library from "./pages/Library";
+import SubmitBook from "./pages/submitBook";
 import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
 
           <Route element={<PrivateRoute />}>
             <Route path="/profile" element={<Profile />} />
+            <Route path="/submitbook" element={<SubmitBook />} />
           </Route>
         </Routes>
       </BrowserRouter>

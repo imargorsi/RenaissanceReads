@@ -10,6 +10,10 @@
   gap: 6rem;
 }
 
+.profiletopbtn > * {
+  margin-left: 0.5rem;
+}
+
 .about__summary__text {
   flex-basis: 80%;
 }

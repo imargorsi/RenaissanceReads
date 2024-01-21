@@ -101,6 +101,10 @@ header {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   }
 
+  .profiletopbtn > button {
+    font-size: 0.8rem;
+  }
+
   .mobile-nav > * {
     color: var(--clr-light);
     font-size: 1.5rem;
@@ -135,7 +139,7 @@ header {
   }
 
   .mobile-nav {
-    width: 200px;
+    width: 220px;
     justify-content: center;
     align-items: center;
     flex-direction: column;
