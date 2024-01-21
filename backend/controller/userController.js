@@ -89,4 +89,11 @@ module.exports = {
       return res.send(error.details ? error.details[0].message : error.message);
     }
   },
+
+  signout: async (req, res) => {
+    res
+      .clearCookie("access_token")
+      .status(200)
+      .json("You are successfully logged out");
+  },
 };

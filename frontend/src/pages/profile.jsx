@@ -6,6 +6,7 @@ import axios from "axios";
 import {
   updateUserSuccess,
   updateUserFailed,
+  signOut,
 } from "../redux/user/userSlice.js";
 
 function Profile() {
@@ -96,10 +97,22 @@ function Profile() {
     }
   };
 
+  const handleSigout = async () => {
+    try {
+      await axios.get("api/sigout");
+      dispatch(signOut());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="profile container">
       <div className="profileabout">
         <h1 className="heading__h2">Welcome Back, {currentUser.fullName}</h1>
+        <button onClick={handleSigout} className="btn">
+          Sign Out
+        </button>
 
         <div className="about__summary">
           <div>

@@ -7,12 +7,10 @@ router.get("/register", (req, res) => {
   res.render("register");
 });
 
-router.get("/sign-in", (req, res) => {
-  res.render("login");
-});
-
 router.post("/api/register", userController.register);
 router.post("/api/login", userController.login);
 router.post("/api/editUser", verifyTokken, userController.editUser);
+
+router.get("/api/sigout", userController.signout);
 
 module.exports = router;
