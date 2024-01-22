@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import SingleBook from "../components/singleBook";
@@ -63,8 +63,8 @@ function Library() {
         <hr />
         {books.map((book) => (
           <SingleBook
-            key={book.bookId} // Assuming each book has a unique identifier
-            img={book.isbn}
+            key={book.bookId}
+            img={`https://covers.openlibrary.org/b/isbn/${book.isbn}-L.jpg`}
             title={book.bookTitle}
             author={book.author}
             by={book.user.fullName}

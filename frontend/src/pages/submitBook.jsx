@@ -29,8 +29,9 @@ function SubmitBook() {
     try {
       const response = await axios.post("/api/submitbook", bookForm);
 
-      if (response.data === "Book Added") {
-        console.log("Book added");
+      if (response.data.status === "success") {
+        console.log("Book Added");
+        setError("Book Added Successfully");
         navigate("/library");
       }
 
