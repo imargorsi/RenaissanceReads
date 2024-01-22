@@ -32,6 +32,7 @@ Users.init(
     timestamps: true,
     paranoid: true,
     modelName: "users",
+    primaryKey: "id",
   }
 );
 

@@ -45,6 +45,7 @@ Books.init(
     timestamps: true,
     paranoid: true,
     modelName: "books",
+    primaryKey: "bookId",
   }
 );
 

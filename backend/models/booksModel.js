@@ -10,6 +10,7 @@ module.exports = {
 
       return { response: newBook };
     } catch (error) {
+      console.log(error);
       return { error: error };
     }
   },
