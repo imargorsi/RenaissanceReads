@@ -10,7 +10,6 @@ module.exports = {
 
       return { response: newBook };
     } catch (error) {
-      console.log("model error", error);
       return { error: error };
     }
   },
@@ -27,7 +26,6 @@ module.exports = {
         response: book,
       };
     } catch (error) {
-      console.log("model error", error);
       return {
         error: error,
       };

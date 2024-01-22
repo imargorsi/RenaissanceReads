@@ -15,13 +15,11 @@ module.exports = {
       const book = await bookModel.newBook(body, bookId);
 
       if (book.error) {
-        console.log("service error", book.error);
         return { error: book.error };
       }
 
-      return { response: book.response };
+      return { response: "Book Added" };
     } catch (error) {
-      console.log("service catch", error);
       return { error: error };
     }
   },

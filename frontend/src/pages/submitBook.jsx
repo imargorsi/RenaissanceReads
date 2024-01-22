@@ -29,16 +29,20 @@ function SubmitBook() {
     try {
       const response = await axios.post("/api/submitbook", bookForm);
 
-      if (response.data.status === "success") {
+      if (response.data === "Book Added") {
+        console.log("Book added");
         navigate("/library");
-      } else {
-        console.error("Error from server:", response.data.error);
-        setError("Make sure you have entered a valid ISBN number");
+      }
+
+      if (response.data === "Book already exists") {
+        setError(
+          "This Book Already Exist in Our Database, Please Check the spelling or try another book"
+        );
       }
     } catch (error) {
-      console.log("catch", error);
-
-      setError("Make sure you have entered a valid ISBN number");
+      setError(
+        error.response.data ? error.response.data.error : "Something Went Wrong"
+      );
     }
   };
 

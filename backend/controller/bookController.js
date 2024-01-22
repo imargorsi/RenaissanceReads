@@ -21,16 +21,23 @@ module.exports = {
       const validator = await schema.validateAsync(req.body);
       const newBook = await bookService.newbook(validator);
 
+      // if (newBook.response == "Book already exists") {
+      //   console.log(newBook.response);
+      //   return res.status(500).send({
+      //     error: newBook.response,
+      //     status: "error",
+      //   });
+      // }
+
       if (newBook.error) {
-        console.log("controller error", newBook.error);
-        return res.status(500).send({ error: newBook.error, status: "error" });
+        return res.status(500).send({
+          error: newBook.error,
+          status: "error",
+        });
       }
 
-      return res
-        .status(200)
-        .send({ response: newBook.response, status: "success" });
+      return res.status(200).send(newBook.response);
     } catch (error) {
-      console.log("controller error catch", error);
       return res.status(500).send({
         error: error.details ? error.details[0].message : error.message,
         status: "error",
