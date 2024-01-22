@@ -5,13 +5,29 @@ module.exports = {
     try {
       const newBook = await models.books.create({
         bookId: bookId,
-        ...body.value,
+        ...body,
+      });
+
+      return { response: newBook };
+    } catch (error) {
+      console.log("model error", error);
+      return { error: error };
+    }
+  },
+
+  bookTitle: async (bookTitle) => {
+    try {
+      const book = await models.books.findOne({
+        where: {
+          bookTitle: bookTitle,
+        },
       });
 
       return {
-        response: newBook,
+        response: book,
       };
     } catch (error) {
+      console.log("model error", error);
       return {
         error: error,
       };

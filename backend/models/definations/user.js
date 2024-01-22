@@ -24,7 +24,7 @@ Users.init(
     profile: {
       type: DataTypes.STRING,
       defaultValue:
-        "https://wqhlyhvifxyzmuipyzsn.supabase.co/storage/v1/object/public/images/defaultimg.jpg",
+        "https://wqhlyhvifxyzmuipyzsn.supabase.co/storage/v1/object/public/images/profile/defaultimg0909.jpg",
     },
   },
   {

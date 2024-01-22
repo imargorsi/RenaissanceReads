@@ -1,60 +1,107 @@
+import axios from "axios";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 function SubmitBook() {
+  const { currentUser } = useSelector((state) => state.user);
+  const [bookForm, setBookForm] = useState({
+    bookTitle: "",
+    author: "",
+    genre: "",
+    isbn: "",
+    id: currentUser.id,
+  });
+
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setBookForm({ ...bookForm, [name]: value });
+  };
+
+  // frontend.js
+  // frontend.js
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post("/api/submitbook", bookForm);
+
+      if (response.data.status === "success") {
+        navigate("/library");
+      } else {
+        console.error("Error from server:", response.data.error);
+        setError("Make sure you have entered a valid ISBN number");
+      }
+    } catch (error) {
+      console.log("catch", error);
+
+      setError("Make sure you have entered a valid ISBN number");
+    }
+  };
+
   return (
     <div className="container">
       <div className="formmain bookform">
         <h2 className="heading__h2">Submit Your Book</h2>
         <p className="form__desc">
-          Make sure to enter the ISBN number of the book, it will help us find
-          the right book cover.
+          Enter the details to submit your book. Make sure to enter the ISBN
+          number of the book; it will help us find the right book cover.
         </p>
 
-        <div className="regform">
-          <form className="form">
-            <input
-              type="text"
-              className="inputitem"
-              placeholder="Book Name"
-              id="bookName"
-              name="bookName"
-              required
-            />
-            <input
-              type="text"
-              className="inputitem"
-              placeholder="Author's Name"
-              id="auhtorName"
-              name="auhtorName"
-              required
-            />
+        <form className="form" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            className="inputitem"
+            placeholder="Book Name"
+            value={bookForm.bookTitle}
+            onChange={handleChange}
+            name="bookTitle"
+            required
+          />
+          <input
+            type="text"
+            className="inputitem"
+            placeholder="Author's Name"
+            value={bookForm.author}
+            onChange={handleChange}
+            name="author"
+            required
+          />
 
-            <select
-              id="selectOption"
-              name="selectOption"
-              className="inputitem drowpdown"
-            >
-              <option className="singleitem" value="option1">
-                Select Genre
-              </option>
-              <option value="option2">History</option>
-              <option value="option3">Fiction</option>
-              <option value="option3">Self Help</option>
-              <option value="option3">Others</option>
-            </select>
+          <select
+            className="inputitem drowpdown"
+            value={bookForm.genre}
+            onChange={handleChange}
+            name="genre"
+          >
+            <option className="singleitem" value="option1">
+              Select Genre
+            </option>
+            <option value="History">History</option>
+            <option value="Fiction">Fiction</option>
+            <option value="Self Help">Self Help</option>
+            <option value="Others">Others</option>
+          </select>
 
-            <input
-              type="text"
-              className="inputitem"
-              placeholder="10 Digit ISBN Number"
-              id="auhtorName"
-              name="auhtorName"
-              required
-            />
+          <input
+            type="text"
+            className="inputitem"
+            placeholder="10 Digit ISBN Number"
+            value={bookForm.isbn}
+            onChange={handleChange}
+            name="isbn"
+            required
+          />
 
-            <button className="btn submi__btn" type="submit">
-              Submit Book
-            </button>
-          </form>
-        </div>
+          <p className="form__desc">{error}</p>
+
+          <button className="btn submi__btn" type="submit">
+            Submit Book
+          </button>
+        </form>
       </div>
     </div>
   );

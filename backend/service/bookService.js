@@ -4,14 +4,25 @@ module.exports = {
   newbook: async (body) => {
     try {
       const bookId = Math.floor(Math.random() * 10000);
+      const checkBookName = await bookModel.bookTitle(body.bookTitle);
+
+      if (checkBookName.response) {
+        return {
+          response: "Book already exists",
+        };
+      }
+
       const book = await bookModel.newBook(body, bookId);
-      return {
-        response: book,
-      };
+
+      if (book.error) {
+        console.log("service error", book.error);
+        return { error: book.error };
+      }
+
+      return { response: book.response };
     } catch (error) {
-      return {
-        error: error,
-      };
+      console.log("service catch", error);
+      return { error: error };
     }
   },
 

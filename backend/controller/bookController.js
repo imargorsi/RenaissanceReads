@@ -4,21 +4,37 @@ const joi = require("joi");
 const schema = joi.object({
   bookTitle: joi.string().required(),
   author: joi.string().required(),
-  isbn: joi.number().required(),
+  isbn: joi
+    .string()
+    .pattern(/^\d{10,}$/)
+    .required()
+    .messages({
+      "string.pattern.base": "ISBN must be at least 10 digits long",
+    }),
   genre: joi.string().required(),
+  id: joi.number().required(),
 });
 
 module.exports = {
   newbook: async (req, res) => {
-    console.log(req.body);
     try {
-      const validator = await schema.validate(req.body);
+      const validator = await schema.validateAsync(req.body);
       const newBook = await bookService.newbook(validator);
 
-      res.status(200).send({ response: newBook.response });
+      if (newBook.error) {
+        console.log("controller error", newBook.error);
+        return res.status(500).send({ error: newBook.error, status: "error" });
+      }
+
+      return res
+        .status(200)
+        .send({ response: newBook.response, status: "success" });
     } catch (error) {
-      res.send({ error: book.error });
-      console.log(error);
+      console.log("controller error catch", error);
+      return res.status(500).send({
+        error: error.details ? error.details[0].message : error.message,
+        status: "error",
+      });
     }
   },
 

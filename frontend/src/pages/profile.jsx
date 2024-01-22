@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRef, useState, useEffect } from "react";
 import supabase from "../supabase.js";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 import {
   updateUserSuccess,
@@ -24,6 +25,7 @@ function Profile() {
 
   const dispatch = useDispatch();
   const imgFileRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setFullName(currentUser.fullName);
@@ -110,9 +112,19 @@ function Profile() {
     <div className="profile container">
       <div className="profileabout">
         <h1 className="heading__h2">Welcome Back, {currentUser.fullName}</h1>
-        <button onClick={handleSigout} className="btn">
-          Sign Out
-        </button>
+        <div className="profiletopbtn">
+          <button onClick={handleSigout} className="btn">
+            Sign Out
+          </button>
+          <button
+            onClick={() => {
+              navigate("/submitbook");
+            }}
+            className="btn"
+          >
+            Submit Book
+          </button>
+        </div>
 
         <div className="about__summary">
           <div>

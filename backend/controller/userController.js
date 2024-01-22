@@ -7,7 +7,9 @@ const signUpschema = joi.object({
   firstName: joi.string().min(3).max(30).required(),
   email: joi.string().email().required(),
   password: joi.string().required(),
-  Cpassword: joi.ref("password"),
+  Cpassword: joi.string().valid(joi.ref("password")).required().messages({
+    "any.only": "Passwords do not match",
+  }),
 });
 
 const loginSchema = joi.object({
