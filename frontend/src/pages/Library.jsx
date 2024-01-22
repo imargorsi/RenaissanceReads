@@ -1,12 +1,32 @@
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import axios from "axios";
 import SingleBook from "../components/singleBook";
-function Library() {
-  // demo image data for temp
-  const imageSource = "https://picsum.photos/200";
-  const bookTitile = "Atomic Habits";
-  const author = "By James Clear";
-  const userBy = "by: argorsi";
 
-  //
+function Library() {
+  const [books, setBooks] = useState([]);
+
+  SingleBook.propTypes = {
+    img: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    by: PropTypes.number.isRequired,
+  };
+
+  useEffect(() => {
+    // Fetch data when the component mounts
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("api/getallbooks");
+
+        setBooks(response.data.response); // Assuming the response data is an array of books
+      } catch (error) {
+        console.error("Error fetching books:", error);
+      }
+    };
+
+    fetchData();
+  }, []); // Empty dependency array means this effect runs once when the component mounts
 
   return (
     <div className="container library">
@@ -41,37 +61,15 @@ function Library() {
 
       <div className="library__books">
         <hr />
-        <SingleBook
-          img={imageSource}
-          title={bookTitile}
-          author={author}
-          by={userBy}
-        />
-        <SingleBook
-          img={imageSource}
-          title={bookTitile}
-          author={author}
-          by={userBy}
-        />
-        <SingleBook
-          img={imageSource}
-          title={bookTitile}
-          author={author}
-          by={userBy}
-        />
-        <SingleBook
-          img={imageSource}
-          title={bookTitile}
-          author={author}
-          by={userBy}
-        />
-        <SingleBook
-          img={imageSource}
-          title={bookTitile}
-          author={author}
-          by={userBy}
-        />
-        \
+        {books.map((book) => (
+          <SingleBook
+            key={book.bookId} // Assuming each book has a unique identifier
+            img={book.isbn}
+            title={book.bookTitle}
+            author={book.author}
+            by={book.user.fullName}
+          />
+        ))}
       </div>
     </div>
   );

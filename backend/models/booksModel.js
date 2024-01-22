@@ -34,7 +34,14 @@ module.exports = {
 
   allbooks: async () => {
     try {
-      const getallbooks = await models.books.findAll();
+      const getallbooks = await models.books.findAll({
+        include: [
+          {
+            model: models.user,
+            attributes: ["fullName"], // Add the attributes you want to retrieve
+          },
+        ],
+      });
 
       return {
         response: getallbooks,
