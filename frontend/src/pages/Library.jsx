@@ -10,7 +10,8 @@ function Library() {
     img: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
-    by: PropTypes.number.isRequired,
+    by: PropTypes.string.isRequired,
+    genre: PropTypes.string.isRequired,
   };
 
   useEffect(() => {
@@ -19,14 +20,26 @@ function Library() {
       try {
         const response = await axios.get("api/getallbooks");
 
-        setBooks(response.data.response); // Assuming the response data is an array of books
+        setBooks(response.data.response);
       } catch (error) {
         console.error("Error fetching books:", error);
       }
     };
 
     fetchData();
-  }, []); // Empty dependency array means this effect runs once when the component mounts
+  }, []);
+
+  const filterBooksByGenre = (genre) => {
+    const allBooks = document.getElementsByClassName("popularbooks__single");
+
+    Array.from(allBooks).forEach((book) => {
+      if (book.id === genre || genre === "All") {
+        book.style.display = "flex";
+      } else {
+        book.style.display = "none";
+      }
+    });
+  };
 
   return (
     <div className="container library">
@@ -44,30 +57,38 @@ function Library() {
         <p className="library__filter__heading">Filter by Genre:</p>
 
         <div className="genres">
-          <a href="">
-            <button className="btn">History</button>
-          </a>
-          <a href="">
-            <button className="btn">Fiction</button>
-          </a>
-          <a href="">
-            <button className="btn">Self Help</button>
-          </a>
-          <a href="">
-            <button className="btn">Classics</button>
-          </a>
+          <button className="btn" onClick={() => filterBooksByGenre("All")}>
+            Show All
+          </button>
+          <button className="btn" onClick={() => filterBooksByGenre("History")}>
+            History
+          </button>
+          <button className="btn" onClick={() => filterBooksByGenre("Fiction")}>
+            Fiction
+          </button>
+          <button
+            className="btn"
+            onClick={() => filterBooksByGenre("Self Help")}
+          >
+            Self Help
+          </button>
+          <button className="btn" onClick={() => filterBooksByGenre("Others")}>
+            Others
+          </button>
         </div>
       </div>
 
-      <div className="library__books">
+      <div className="library__books" id="librarybooks">
         <hr />
         {books.map((book) => (
           <SingleBook
+            id={book.genre}
             key={book.bookId}
             img={`https://covers.openlibrary.org/b/isbn/${book.isbn}-L.jpg`}
             title={book.bookTitle}
             author={book.author}
             by={book.user.fullName}
+            genre={book.genre}
           />
         ))}
       </div>
