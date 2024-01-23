@@ -79,24 +79,4 @@ module.exports = {
       };
     }
   },
-
-  getbooks: async (id) => {
-    try {
-      const userbooks = await models.books.findAll({
-        where: {
-          userId: id,
-        },
-      });
-
-      const userbooksData = userbooks.map((book) => book.get({ plain: true }));
-
-      return {
-        response: userbooksData,
-      };
-    } catch (error) {
-      return {
-        error: error,
-      };
-    }
-  },
 };

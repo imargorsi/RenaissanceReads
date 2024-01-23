@@ -62,43 +62,4 @@ module.exports = {
       };
     }
   },
-
-  editNotes: async (bookid, notes) => {
-    try {
-      const bookNotes = await bookModel.editNotes(bookid, notes);
-
-      if (bookNotes.response == null) {
-        return {
-          response: "no book found",
-        };
-      }
-
-      return {
-        response: bookNotes.response,
-      };
-    } catch (error) {
-      return {
-        error: error,
-      };
-    }
-  },
-
-  deletebook: async (id) => {
-    try {
-      const deletedbook = await bookModel.deletebook(id);
-
-      if (deletedbook.response == null || deletedbook.error == null) {
-        return {
-          response: "no book found",
-        };
-      }
-      return {
-        response: deletedbook.response,
-      };
-    } catch (error) {
-      return {
-        error: error,
-      };
-    }
-  },
 };

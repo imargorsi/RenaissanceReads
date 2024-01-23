@@ -50,7 +50,7 @@ function Header() {
           <a href="/library">Library</a>
 
           {currentUser ? (
-            <a href="profile">
+            <a href="/profile">
               <img
                 className="header__usericon"
                 src={currentUser.profile}

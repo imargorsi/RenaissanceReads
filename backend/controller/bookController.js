@@ -67,34 +67,4 @@ module.exports = {
       res.send({ error: error });
     }
   },
-
-  editNotes: async (req, res) => {
-    try {
-      const bookid = parseInt(req.body.id);
-      const notes = req.body.notes;
-
-      const bookNotes = await bookService.editNotes(bookid, notes);
-
-      res.send({ response: bookNotes.response });
-    } catch (error) {
-      res.send({ error: error });
-    }
-  },
-
-  deletebook: async (req, res) => {
-    try {
-      const bookid = parseInt(req.params.id);
-      const deletebook = await bookService.deletebook(bookid);
-      console.log("book deleted", deletebook, bookid);
-      res.status(200).json({
-        success: true,
-        message: "Book deleted",
-      });
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        error: error.message || "Error deleting book",
-      });
-    }
-  },
 };

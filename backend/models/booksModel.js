@@ -39,7 +39,7 @@ module.exports = {
         include: [
           {
             model: models.user,
-            attributes: ["fullName"], // Add the attributes you want to retrieve
+            attributes: ["fullName"],
           },
         ],
       });
@@ -64,42 +64,6 @@ module.exports = {
 
       return {
         response: getbook,
-      };
-    } catch (error) {
-      return {
-        error: error,
-      };
-    }
-  },
-
-  editNotes: async (bookid, notes) => {
-    try {
-      const bookNotes = await models.books.update(
-        { notes: notes },
-        { where: { id: bookid } }
-      );
-
-      return {
-        response: bookNotes,
-      };
-    } catch (error) {
-      return {
-        error: error.message,
-      };
-    }
-  },
-
-  deletebook: async (id) => {
-    try {
-      const deletedbook = await models.books.destroy({
-        where: {
-          id: id,
-        },
-      });
-
-      console.log("mm", deletedbook);
-      return {
-        response: deletedbook,
       };
     } catch (error) {
       return {

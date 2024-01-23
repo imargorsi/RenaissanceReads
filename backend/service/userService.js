@@ -80,24 +80,4 @@ module.exports = {
       };
     }
   },
-
-  getbooks: async (id) => {
-    try {
-      const getbooks = await userModel.getbooks(id);
-
-      if (getbooks === null) {
-        return {
-          error: "You don't have any books",
-        };
-      }
-
-      return {
-        response: getbooks,
-      };
-    } catch (error) {
-      return {
-        error: error,
-      };
-    }
-  },
 };

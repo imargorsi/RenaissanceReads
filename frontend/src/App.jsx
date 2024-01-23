@@ -9,6 +9,7 @@ import BlogPage from "./pages/BlogPage";
 import Library from "./pages/Library";
 import SubmitBook from "./pages/submitBook";
 import FullSingleBook from "./pages/FullSingleBook";
+import Reviews from "./components/Reviews";
 import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
@@ -22,11 +23,12 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/blogs" element={<BlogPage />} />
           <Route path="/library" element={<Library />} />
-          <Route path="/singlebook/:id" element={<FullSingleBook />} />
+          <Route path="/review" element={<Reviews />} />
 
           <Route element={<PrivateRoute />}>
             <Route path="/profile" element={<Profile />} />
             <Route path="/submitbook" element={<SubmitBook />} />
+            <Route path="/singlebook/:id" element={<FullSingleBook />} />
           </Route>
         </Routes>
       </BrowserRouter>
