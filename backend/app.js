@@ -6,6 +6,7 @@ var cors = require("cors");
 
 var usersRouter = require("./routes/users");
 var bookRouter = require("./routes/book");
+var reviewRouter = require("./routes/reviews");
 
 var app = express();
 
@@ -17,6 +18,7 @@ app.use(cors());
 
 app.use("/", usersRouter);
 app.use("/", bookRouter);
+app.use("/", reviewRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -12,6 +12,10 @@ books.belongsTo(user, { foreignKey: "id" }); // Each book belongs to a user
 user.hasMany(reviews, { foreignKey: "id" }); // One user has many reviews
 reviews.belongsTo(user, { foreignKey: "id" }); // Each review belongs to a user
 
+books.hasMany(reviews, { foreignKey: "bookId" }); // One book has many reviews
+
+reviews.belongsTo(books, { foreignKey: "bookId" }); // Each review belongs to a book
+
 db.sequelize = sequelize;
 sequelize.models = models;
 

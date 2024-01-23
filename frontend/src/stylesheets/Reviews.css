@@ -72,8 +72,10 @@
   color: var(--clr-black);
 }
 
-.rating:not(:hover) label input:checked ~ .icon,
-.rating:hover label:hover input ~ .icon {
+.rating label input:checked ~ .icon,
+.rating label input:checked ~ .icon ~ .icon,
+.rating label:hover input ~ .icon,
+.rating label:hover input ~ .icon ~ .icon {
   color: #ffa904;
 }
 

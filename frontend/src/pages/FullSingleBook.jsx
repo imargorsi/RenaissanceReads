@@ -2,10 +2,14 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
+import Reviews from "../components/Reviews";
+import { useSelector } from "react-redux";
 
 function FullSingleBook() {
   const { id } = useParams();
   const [book, setBook] = useState(null);
+
+  const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
     const fetchBookDetails = async () => {
@@ -55,6 +59,7 @@ function FullSingleBook() {
           alt={book.bookTitle}
         />
       </div>
+      <Reviews bookId={book.bookId} userId={currentUser.id} />
     </div>
   );
 }
