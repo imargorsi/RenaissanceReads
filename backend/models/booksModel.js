@@ -58,7 +58,7 @@ module.exports = {
     try {
       const getbook = await models.books.findOne({
         where: {
-          id: id,
+          bookId: id,
         },
       });
 

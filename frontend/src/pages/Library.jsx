@@ -80,6 +80,7 @@ function Library() {
 
       <div className="library__books" id="librarybooks">
         <hr />
+
         {books.map((book) => (
           <SingleBook
             id={book.genre}
@@ -89,6 +90,7 @@ function Library() {
             author={book.author}
             by={book.user.fullName}
             genre={book.genre}
+            bookId={book.bookId}
           />
         ))}
       </div>

@@ -8,6 +8,7 @@ import Profile from "./pages/Profile";
 import BlogPage from "./pages/BlogPage";
 import Library from "./pages/Library";
 import SubmitBook from "./pages/submitBook";
+import FullSingleBook from "./pages/FullSingleBook";
 import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/blogs" element={<BlogPage />} />
           <Route path="/library" element={<Library />} />
+          <Route path="/singlebook/:id" element={<FullSingleBook />} />
 
           <Route element={<PrivateRoute />}>
             <Route path="/profile" element={<Profile />} />

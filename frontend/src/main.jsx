@@ -14,6 +14,7 @@ import "./stylesheets/Form.css";
 import "./stylesheets/Blogpage.css";
 import "./stylesheets/Library.css";
 import "./stylesheets/SubmitBook.css";
+import "./stylesheets/FullSingleBook.css";
 import "./stylesheets/utils.css";
 
 createRoot(document.getElementById("root")).render(

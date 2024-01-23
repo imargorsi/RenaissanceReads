@@ -5,7 +5,7 @@ const bookController = require("../controller/bookController");
 router.post("/api/submitbook", bookController.newbook);
 router.get("/api/getallbooks", bookController.getallbooks);
 
-// router.get("/bookdetails/:id", bookController.singlebook);
+router.get("/api/singlebook/:id", bookController.singlebook);
 
 // router.post("/notechanges", bookController.editNotes);
 

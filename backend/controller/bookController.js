@@ -62,7 +62,7 @@ module.exports = {
     try {
       const getbook = await bookService.singlebook(req.params.id);
 
-      await res.status(200).send({ response: getbook.response.dataValues });
+      await res.status(200).send({ response: getbook.response });
     } catch (error) {
       res.send({ error: error });
     }

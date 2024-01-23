@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 function SingleBook(props) {
   return (
@@ -16,7 +17,9 @@ function SingleBook(props) {
         <span className="fa fa-star stars"></span>
 
         <p className="singlebook__user">Submitted by: {props.by}</p>
-        <button className="btn book__btn">Read More</button>
+        <Link key={props.bookId} to={`/singlebook/${props.bookId}`}>
+          <button className="btn book__btn">Read More</button>
+        </Link>
       </div>
     </div>
   );
@@ -28,6 +31,7 @@ SingleBook.propTypes = {
   author: PropTypes.string.isRequired,
   by: PropTypes.string.isRequired,
   genre: PropTypes.string.isRequired,
+  bookId: PropTypes.string.isRequired,
 };
 
 export default SingleBook;
