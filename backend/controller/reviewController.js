@@ -24,4 +24,16 @@ module.exports = {
       res.status(400).json({ error: error.message || "Validation failed" });
     }
   },
+
+  getBookReviews: async (req, res) => {
+    try {
+      const bookReviews = await reviewService.getBookReviews(req.params.id);
+
+      res.status(200).json({ data: bookReviews.response, status: "success" });
+    } catch (error) {
+      res
+        .status(400)
+        .json({ error: error.message || "Error getting book reviews" });
+    }
+  },
 };

@@ -22,4 +22,39 @@ module.exports = {
       };
     }
   },
+
+  getBookReviews: async (body) => {
+    try {
+      const reviews = await models.reviews.findAll({
+        where: {
+          bookId: body,
+        },
+        attributes: [
+          "reviewId",
+          "reviewTitle",
+          "reviewContent",
+          "stars",
+          "bookId",
+          "id",
+          "createdAt",
+        ],
+
+        include: [
+          {
+            model: models.user,
+            attributes: ["fullName", "profile"],
+          },
+        ],
+      });
+      console.log(reviews);
+
+      return {
+        response: reviews,
+      };
+    } catch (error) {
+      return {
+        error: error,
+      };
+    }
+  },
 };

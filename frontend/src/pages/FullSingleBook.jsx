@@ -4,12 +4,21 @@ import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import Reviews from "../components/Reviews";
 import { useSelector } from "react-redux";
+import SingleReview from "../components/SingleReview";
 
 function FullSingleBook() {
+  // for passing the bookId
   const { id } = useParams();
+
+  // for book
   const [book, setBook] = useState(null);
 
+  // for reviews
+  const [reviews, setReviews] = useState([]);
+
   const { currentUser } = useSelector((state) => state.user);
+
+  // to fetch book details
 
   useEffect(() => {
     const fetchBookDetails = async () => {
@@ -24,6 +33,23 @@ function FullSingleBook() {
     fetchBookDetails();
   }, [id]);
 
+  // to fetch reviews
+
+  useEffect(() => {
+    const gettingReviews = async () => {
+      try {
+        const allReviews = await axios.get(`/api/getreviews/${id}`);
+
+        if (allReviews.data.status === "success") {
+          setReviews(allReviews.data.data);
+        }
+      } catch (error) {
+        console.log("Error fetching reviews:", error);
+      }
+    };
+    gettingReviews();
+  }, [reviews]); // ignore the error because local state is changing
+
   if (!book) {
     return <p>Loading...</p>;
   }
@@ -34,8 +60,7 @@ function FullSingleBook() {
         <div className="review">
           <h1 className="heading__h2">{book.bookTitle}</h1>
 
-          <p className="bookinfo__reviewinfo">48 People Reviews ⭐⭐⭐⭐⭐</p>
-          {/* Add your review content here */}
+          <p className="bookinfo__reviewinfo">{`${reviews.length} Reviews ⭐⭐⭐⭐⭐`}</p>
 
           <div className="single__reviews">
             <p className="single__review__content">
@@ -59,14 +84,31 @@ function FullSingleBook() {
           alt={book.bookTitle}
         />
       </div>
+
+      {/* for posting reviews */}
       <Reviews bookId={book.bookId} userId={currentUser.id} />
+
+      {/* for getting reviews */}
+      <div className="allreviews">
+        {reviews.map((review) => (
+          <SingleReview
+            key={review.reviewId}
+            img={review.user.profile}
+            heading={review.reviewTitle}
+            review={review.reviewContent}
+            author={review.user.fullName}
+            stars={review.stars}
+            date={review.createdAt}
+          />
+        ))}
+      </div>
     </div>
   );
 }
 
 FullSingleBook.propTypes = {
-  img: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
+  img: PropTypes.string,
+  bookTitle: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
   by: PropTypes.string.isRequired,
   genre: PropTypes.string.isRequired,

@@ -16,6 +16,7 @@ import "./stylesheets/Library.css";
 import "./stylesheets/SubmitBook.css";
 import "./stylesheets/FullSingleBook.css";
 import "./stylesheets/Reviews.css";
+import "./stylesheets/AllReviews.css";
 import "./stylesheets/utils.css";
 
 createRoot(document.getElementById("root")).render(

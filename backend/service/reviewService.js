@@ -10,4 +10,14 @@ module.exports = {
       throw new Error(error.message || "Error posting review");
     }
   },
+
+  getBookReviews: async (body) => {
+    try {
+      const reviews = await reviewModel.getBookReviews(body);
+
+      return reviews;
+    } catch (error) {
+      throw new Error(error.message || "Error getting book reviews");
+    }
+  },
 };

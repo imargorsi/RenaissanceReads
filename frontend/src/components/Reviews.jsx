@@ -50,8 +50,6 @@ function Reviews(props) {
     }
   };
 
-  console.log(reviewData, bookId, userId);
-
   return (
     <div className="container">
       <form className="reviewform">
