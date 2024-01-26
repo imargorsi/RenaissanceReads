@@ -48,7 +48,7 @@ function FullSingleBook() {
       }
     };
     gettingReviews();
-  }, [reviews]); // ignore the error because local state is changing
+  }, [id]); // ignore the error because local state is changing
 
   if (!book) {
     return <p>Loading...</p>;
@@ -62,19 +62,21 @@ function FullSingleBook() {
 
           <p className="bookinfo__reviewinfo">{`${reviews.length} Reviews ⭐⭐⭐⭐⭐`}</p>
 
-          <div className="single__reviews">
-            <p className="single__review__content">
-              {/* Sample content, replace with actual reviews */}
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Doloremque, eius reiciendis veniam quibusdam dolorum quasi magnam
-              eos, numquam sapiente quisquam distinctio cumque dignissimos, eum
-              consectetur inventore quas officia quae rem. Repellat sit veniam
-              reiciendis obcaecati placeat expedita dolorum omnis vero maxime
-              eos quaerat magni iusto facilis rem numquam, blanditiis
-              exercitationem et assumenda quidem tenetur nemo. Exercitationem
-              vero non maiores quod!
+          <div className="book__desc">
+            <h2>Book Information:</h2>
+            <p className="book__desc__content">
+              <span>Publishers:</span> AR Gorsi Book House
             </p>
-            <p className="single__review__user">By Ar Gorsi</p>
+            <p className="book__desc__content">
+              <span>Published Year:</span> 2016
+            </p>
+            <p className="book__desc__content">
+              <span>Subtitle:</span> Rules for Focused Success in a Distracted
+              World
+            </p>
+            <p className="book__desc__content">
+              <span>Number of Pages:</span> 264 Pages
+            </p>
           </div>
         </div>
 
@@ -89,18 +91,30 @@ function FullSingleBook() {
       <Reviews bookId={book.bookId} userId={currentUser.id} />
 
       {/* for getting reviews */}
+      <h2 className="heading__h2 reviews__main"> Read All Reviews:</h2>
+
       <div className="allreviews">
-        {reviews.map((review) => (
-          <SingleReview
-            key={review.reviewId}
-            img={review.user.profile}
-            heading={review.reviewTitle}
-            review={review.reviewContent}
-            author={review.user.fullName}
-            stars={review.stars}
-            date={review.createdAt}
-          />
-        ))}
+        {reviews.map((review) => {
+          // Convert the date string to a Date object
+          const reviewDate = new Date(review.createdAt);
+          const formattedDate = reviewDate.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+
+          return (
+            <SingleReview
+              key={review.reviewId}
+              img={review.user.profile}
+              heading={review.reviewTitle}
+              review={review.reviewContent}
+              author={review.user.fullName}
+              stars={review.stars}
+              date={formattedDate}
+            />
+          );
+        })}
       </div>
     </div>
   );
@@ -108,11 +122,11 @@ function FullSingleBook() {
 
 FullSingleBook.propTypes = {
   img: PropTypes.string,
-  bookTitle: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
-  by: PropTypes.string.isRequired,
-  genre: PropTypes.string.isRequired,
-  bookId: PropTypes.string.isRequired,
+  bookTitle: PropTypes.string,
+  author: PropTypes.string,
+  by: PropTypes.string,
+  genre: PropTypes.string,
+  bookId: PropTypes.string,
 };
 
 export default FullSingleBook;

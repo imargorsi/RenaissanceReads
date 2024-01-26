@@ -89,7 +89,6 @@ function Profile() {
       dispatch(updateUserSuccess(response.data.user));
       setFullName(response.data.fullName);
       setUploadStatus({
-        message: "User details and image uploaded successfully!",
         isError: false,
       });
     } catch (error) {

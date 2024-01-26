@@ -10,12 +10,6 @@ function SingleBook(props) {
         <h2 className="singlebook__heading">{props.title}</h2>
         <p className="singlebook__author">Author: {props.author}</p>
 
-        <span className="fa fa-star stars checked"></span>
-        <span className="fa fa-star stars checked"></span>
-        <span className="fa fa-star stars checked"></span>
-        <span className="fa fa-star stars checked"></span>
-        <span className="fa fa-star stars"></span>
-
         <p className="singlebook__user">Submitted by: {props.by}</p>
         <Link key={props.bookId} to={`/singlebook/${props.bookId}`}>
           <button className="btn book__btn">Read More</button>
@@ -26,12 +20,12 @@ function SingleBook(props) {
 }
 
 SingleBook.propTypes = {
-  img: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
-  by: PropTypes.string.isRequired,
-  genre: PropTypes.string.isRequired,
-  bookId: PropTypes.string.isRequired,
+  img: PropTypes.string,
+  title: PropTypes.string,
+  author: PropTypes.string,
+  by: PropTypes.string,
+  genre: PropTypes.string,
+  bookId: PropTypes.string,
 };
 
 export default SingleBook;

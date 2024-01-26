@@ -36,7 +36,7 @@ function SingleReview(props) {
       </div>
       <div className="singlereview__review">
         <p className="paragraph">{props.review}</p>
-        <h4 className="paragraph">{props.author}</h4>
+        <h4 className="paragraph">By: {props.author}</h4>
       </div>
     </div>
   );

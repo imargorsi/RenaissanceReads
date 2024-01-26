@@ -87,3 +87,30 @@
 .submitbtnform {
   margin-top: 1rem;
 }
+
+/* for 2xl   */
+/* @media (max-width: 1536px) {} */
+
+/* for xl   */
+/* @media (max-width: 1280px) {} */
+
+/* for large */
+/* @media (max-width: 1024px) {} */
+
+/* for medium */
+/* @media (max-width: 768px) {} */
+
+/* for small */
+@media (max-width: 640px) {
+  .reviewform {
+    margin: 5rem 0rem;
+    width: 100%;
+  }
+}
+
+/* for extra small */
+@media (max-width: 400px) {
+  .reviewform {
+    padding-inline: 1rem;
+  }
+}

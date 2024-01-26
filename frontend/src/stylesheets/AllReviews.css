@@ -49,3 +49,57 @@
 .singlereview__review > * {
   margin: 1rem 0rem;
 }
+
+/* for 2xl   */
+/* @media (max-width: 1536px) {} */
+
+/* for xl   */
+/* @media (max-width: 1280px) {} */
+
+/* for large */
+@media (max-width: 1024px) {
+  .allreviews {
+    display: flex;
+    gap: 1rem;
+    margin: 3rem 0rem;
+    flex-wrap: wrap;
+  }
+
+  .singlereview {
+    padding: 2rem;
+    border: 2px solid var(--clr-dark-2);
+    border-radius: 20px;
+    transition: box-shadow 1s; /* Adjusted duration for smoother transition */
+    width: 100%;
+  }
+}
+
+/* for medium */
+/* @media (max-width: 768px) {} */
+
+/* for small */
+/* @media (max-width: 640px) {} */
+
+/* for extra small */
+@media (max-width: 400px) {
+  .allreviews {
+    padding-inline: 1rem;
+  }
+
+  .singlereview {
+    padding: 1rem;
+  }
+
+  .author__image {
+    width: 60px;
+    height: 60px;
+  }
+
+  .review__stars {
+    font-size: 1rem;
+  }
+
+  .reviews__main {
+    padding-inline: 1.3rem;
+  }
+}

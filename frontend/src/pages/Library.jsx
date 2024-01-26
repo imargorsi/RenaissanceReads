@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import SingleBook from "../components/singleBook";
+import SingleBook from "../components/SingleBook";
 
 function Library() {
   const [books, setBooks] = useState([]);
 
   SingleBook.propTypes = {
-    img: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
-    by: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
+    img: PropTypes.string,
+    title: PropTypes.string,
+    author: PropTypes.string,
+    by: PropTypes.string,
+    genre: PropTypes.string,
   };
 
   useEffect(() => {

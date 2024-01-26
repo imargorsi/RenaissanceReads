@@ -23,14 +23,6 @@ Books.init(
       allowNull: false,
     },
 
-    review: {
-      type: DataTypes.TEXT,
-    },
-
-    notes: {
-      type: DataTypes.TEXT,
-    },
-
     isbn: {
       type: DataTypes.STRING,
       allowNull: false,
