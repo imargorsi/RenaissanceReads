@@ -57,6 +57,7 @@
 .popularbooks__single {
   display: flex;
   gap: 2rem;
+  align-items: stretch;
 }
 
 .singlebookcover {
@@ -70,7 +71,7 @@
 }
 
 .singlebook__heading {
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   color: var(--clr-dark-2);
 }
 
@@ -242,7 +243,7 @@
   }
 
   .singlebook__heading {
-    font-size: 2.5rem;
+    font-size: 1.5rem;
     color: var(--clr-dark-2);
   }
 
@@ -301,7 +302,8 @@
   /* hero book section */
 
   .popularbooks__single {
-    padding: 1rem;
+    padding: 0rem;
+    gap: 2rem;
   }
 
   .singlebookcover {

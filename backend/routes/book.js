@@ -7,4 +7,6 @@ router.get("/api/getallbooks", bookController.getallbooks);
 
 router.get("/api/singlebook/:id", bookController.singlebook);
 
+router.get("/api/latestbooks", bookController.latestBooks);
+
 module.exports = router;

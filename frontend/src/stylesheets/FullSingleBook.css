@@ -32,6 +32,7 @@
 .book__desc__content {
   font-size: 1.3rem;
   color: var(--clr-dark-2);
+  padding-top: 0.5rem;
 }
 
 .book__desc__content > span {

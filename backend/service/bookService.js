@@ -62,4 +62,22 @@ module.exports = {
       };
     }
   },
+
+  latestBooks: async () => {
+    try {
+      const twoBooks = await bookModel.latestBooks();
+      if (twoBooks.response.length == 0) {
+        return {
+          response: "No books found",
+        };
+      }
+      return {
+        response: twoBooks,
+      };
+    } catch (error) {
+      return {
+        error: error,
+      };
+    }
+  },
 };

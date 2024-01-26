@@ -16,6 +16,13 @@ function FullSingleBook() {
   // for reviews
   const [reviews, setReviews] = useState([]);
 
+  const [bookInfo, setBookInfo] = useState({
+    publishers: "",
+    publish_date: "",
+    number_of_pages: "",
+    subtitle: "",
+  });
+
   const { currentUser } = useSelector((state) => state.user);
 
   // to fetch book details
@@ -33,22 +40,35 @@ function FullSingleBook() {
     fetchBookDetails();
   }, [id]);
 
-  // to fetch reviews
+  // to fetch reviews and book information
 
   useEffect(() => {
-    const gettingReviews = async () => {
+    const gettingReviewsAndBookInformation = async () => {
       try {
         const allReviews = await axios.get(`/api/getreviews/${id}`);
 
         if (allReviews.data.status === "success") {
           setReviews(allReviews.data.data);
         }
+
+        if (book) {
+          const response = await axios.get(
+            `https://openlibrary.org/isbn/${book.isbn}.json`
+          );
+          setBookInfo({
+            publishers: response.data.publishers[0],
+            publish_date: response.data.publish_date,
+            number_of_pages: response.data.number_of_pages,
+            subtitle: response.data.subtitle,
+          });
+        }
       } catch (error) {
-        console.log("Error fetching reviews:", error);
+        console.log("Error fetching reviews or book information:", error);
       }
     };
-    gettingReviews();
-  }, [id]); // ignore the error because local state is changing
+
+    gettingReviewsAndBookInformation();
+  }, [id, book]); // Correct dependencies array including id and book
 
   if (!book) {
     return <p>Loading...</p>;
@@ -63,19 +83,18 @@ function FullSingleBook() {
           <p className="bookinfo__reviewinfo">{`${reviews.length} Reviews ⭐⭐⭐⭐⭐`}</p>
 
           <div className="book__desc">
-            <h2>Book Information:</h2>
+            <h2 className="heading__h3">Book Information:</h2>
             <p className="book__desc__content">
-              <span>Publishers:</span> AR Gorsi Book House
+              <span>Publishers:</span> {bookInfo.publishers}
             </p>
             <p className="book__desc__content">
-              <span>Published Year:</span> 2016
+              <span>Published Year:</span> {bookInfo.publish_date}
             </p>
             <p className="book__desc__content">
-              <span>Subtitle:</span> Rules for Focused Success in a Distracted
-              World
+              <span>Subtitle:</span> {bookInfo.subtitle}
             </p>
             <p className="book__desc__content">
-              <span>Number of Pages:</span> 264 Pages
+              <span>Number of Pages:</span> {bookInfo.number_of_pages}
             </p>
           </div>
         </div>

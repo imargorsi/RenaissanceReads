@@ -71,4 +71,23 @@ module.exports = {
       };
     }
   },
+
+  latestBooks: async () => {
+    try {
+      const twoBooks = await models.books.findAll({
+        order: [["createdAt", "DESC"]],
+        limit: 2,
+      });
+
+      console.log(twoBooks);
+
+      return {
+        response: twoBooks,
+      };
+    } catch (error) {
+      return {
+        error: error,
+      };
+    }
+  },
 };

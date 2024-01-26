@@ -67,4 +67,13 @@ module.exports = {
       res.send({ error: error });
     }
   },
+  latestBooks: async (req, res) => {
+    try {
+      const twoBook = await bookService.latestBooks();
+
+      await res.status(200).send({ response: twoBook.response });
+    } catch (error) {
+      res.send({ error: error });
+    }
+  },
 };

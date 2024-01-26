@@ -46,7 +46,7 @@ function Header() {
 
         <div className="header__links">
           <a href="/">Home</a>
-          <a href="/blogs">Blog</a>
+          {/* <a href="/blogs">Blog</a> */}
           <a href="/library">Library</a>
 
           {currentUser ? (
@@ -79,7 +79,8 @@ function Header() {
       <hr className="header__line" />
 
       <div className="mobile-nav " id="mobile-nav">
-        <a href="/blogs">Blog</a>
+        <a href="/">Home</a>
+        {/* <a href="/blogs">Blog</a> */}
         <a href="/library">Library</a>
         <div>
           {currentUser ? (
