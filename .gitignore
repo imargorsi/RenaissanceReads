@@ -1,4 +1,21 @@
-# Node.js
-node_modules/
+# Node modules
+/node_modules
+
+# Dependency directories
+/bower_components
+
+# Build files
+/build
+/dist
+
+# Environment variables file
+.env
+
+# Log files
+*.log
 
 
+
+# Editor temporary files
+*.swp
+*~
